@@ -142,3 +142,84 @@ describe('Shopping List', function() {
       });
   });
 });
+
+describe('Recipes', function() {
+
+  before(function() {
+    return runServer();
+  });
+
+  after(function() {
+    return closeServer();
+  });
+
+  it('should list items on GET', function() {
+    return chai.request(app).get('/recipes')
+    .then(function (res) {
+      res.should.have.status(200);
+      res.should.be.json;
+      res.body.should.be.a('array');
+      res.body.length.should.be.at.least(1);
+      const expectedKeys = ['name', 'ingredients', 'id'];
+      res.body.forEach(function(recipe) {
+        recipe.should.be.an('object');
+        recipe.should.include.keys(expectedKeys);
+      });
+    })
+  });
+
+  it('should add item on POST', function() {
+    const newRecipe = { "name": 'mulled cider', "ingredients": ['apple cider', 'cinnamon sticks', 'cloves', 'nutmeg']};
+    return chai.request(app)
+    .post('/recipes')
+    .send(newRecipe)
+    .then(function (res) {
+      res.should.be.json;
+      res.should.be.a('object');
+      res.should.have.status(201);
+      res.body.should.include.keys('id', 'name', 'ingredients');
+      res.body.id.should.not.be.null;
+      res.body.should.deep.equal(Object.assign(newRecipe, {id: res.body.id}));
+    });
+  });
+
+  it('should update item on PUT', function() {
+    const updatedRecipe = { "name": 'mulled cider', "ingredients": ['apple cider', 'cinnamon sticks', 'cloves', 'nutmeg']};
+    return chai.request(app)
+    .get('/recipes')
+    .then(function (res) {
+      const id = res.body[0].id;
+      updatedRecipe.id = id;
+      return chai.request(app)
+      .put(`/recipes/${id}`)
+      .send(updatedRecipe)
+    }).then(function (res) {
+      res.should.be.json;
+      res.should.have.status(200);
+      res.body.should.deep.equal(updatedRecipe);
+      res.should.be.a('object');
+    });
+  });
+
+  it('should delete item on DELETE', function() {
+    let id = undefined;
+    return chai.request(app)
+    .get('/recipes')
+    .then(function (res) {
+      id = res.body[0].id;
+      return chai.request(app)
+      .delete(`/recipes/${id}`)
+    }).then(function (res) {
+      res.should.have.status(204);
+    }).then(function (res) {
+      return chai.request(app)
+      .get('/recipes')
+      .then(function (res) {
+        res.body.forEach(function (recipe) {
+          recipe.id.should.not.equal(id);
+        });
+      });
+    });
+  });
+
+});
