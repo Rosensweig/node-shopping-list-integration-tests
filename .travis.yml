@@ -1,2 +1,10 @@
 language: node_js
 node_js: node
+deploy:
+  provider: heroku
+  api_key:
+    secure: sIuX0w6USXmcDnWeYQhdba2eeQmwSSNGYzbBUGoPVc1E5RYe06WKsxwMRdvKPC7Wbr17HHdDvYrpkx4toZIi/Q4CIE+hUI2ek6jx8pc+wNBk9VAClyQwXHYgOQcIae6nyvaL89qNlREdw89xoz0MeGtJZI3sNTz3F9CAnLZc54ggZZUgjAD3bM9QHfe9RdcUrECzvgbtybujBbP2PwV+l2vrHkzuPHwoomgkE0q8v8KQCivHja63zXLo0JDtrMu2mcCGUUAoWPiJRi4A537OmZRXIvWv2Fb/KaIhkLUAXzusl7AnOEbdOtdXvEdA1EloUMlc5Qo98ALMGrNDjDkqRXi6jkd6DGTvxvtvLuO2kQC/ZTpmc2FaASgirlwfeSKld1P8yyaVv6pTsZc8+noVLcZ6BCeGz4BD/OxFyms3RrcuoaTRRnrSqqSnEKDU1qlQyHuchJwAm+EEv1VFyVVpvukSSfmtA9Y/5+IEpEnlgELrSzMAsBXKn/BL2DtxvBIF/BHnFJlpgp9EG8qP8MH+8/JS4Dw73A1rxpAErVR5n9hFDgMCLbj5bguiMLlNfVj/cGflTI0JAdQOd8qWWXudgJBAhoj0c6UU8DV9/dSN+r41Z/tUEUO8OdYkqLSwb9Rs+AgQfUy2iLnn3e4Ae9FLmdErTqGxH+H7flwo8evmEhI=
+  app: protected-wildwood-77423
+  on:
+    repo: Rosensweig/node-shopping-list-integration-tests
+    branch: tests-for-recipes
