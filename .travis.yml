@@ -7,4 +7,4 @@ deploy:
   app: protected-wildwood-77423
   on:
     repo: Rosensweig/node-shopping-list-integration-tests
-    branch: tests-for-recipes
+    branch: master
